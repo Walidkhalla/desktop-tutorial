@@ -11,12 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.miembarazosemanaasemana.bbdd.UsuarioDatabase
 import com.example.miembarazosemanaasemana.databinding.FragmentLoginBinding
 import com.example.miembarazosemanaasemana.repositorio.UsuarioRepositorio
+import com.example.miembarazosemanaasemana.viewmodel.AppViewModel
 import com.example.miembarazosemanaasemana.viewmodel.UsuarioViewModel
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModel: UsuarioViewModel
+    private lateinit var appViewModel: AppViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,15 +30,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dao = UsuarioDatabase.getDatabase(requireContext()).usuarioDAO()
-        val repo = UsuarioRepositorio(dao)
-        viewModel = UsuarioViewModel(repo)
+        appViewModel = (activity as MainActivity).appViewModel
 
         binding.btnLogin.setOnClickListener {
             val user = binding.editUsuarioLogin.text.toString()
             if (user.isNotBlank()) {
-                viewModel.buscarUsuario(user)
-                viewModel.usuario.observe(viewLifecycleOwner) { usuario ->
+                appViewModel.buscarUsuarioPorId(user)
+                appViewModel.usuarioActual.observe(viewLifecycleOwner) { usuario ->
                     if (usuario != null) {
                         val prefs = requireActivity().getSharedPreferences("usuario", Context.MODE_PRIVATE)
                         prefs.edit().putString("usuarioId", usuario.usuario).apply()
