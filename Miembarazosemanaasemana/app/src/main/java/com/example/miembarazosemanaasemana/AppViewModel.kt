@@ -1,5 +1,6 @@
 package com.example.miembarazosemanaasemana.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,15 +20,16 @@ class AppViewModel(private val repo: UsuarioRepositorio) : ViewModel() {
             usuarioActual.value = usuario
         }
     }
-
-    // Buscar usuario desde la BBDD
-    fun buscarUsuarioPorId(id: String) {
+    fun buscarUsuarioPorId(id: String): LiveData<Usuario?> {
+        val resultado = MutableLiveData<Usuario?>()
         viewModelScope.launch {
             repo.buscarUsuarioPorNombre(id).collect { usuario ->
-                usuarioActual.postValue(usuario)
+                resultado.postValue(usuario)
             }
         }
+        return resultado
     }
+
 
     fun borrarUsuario(usuario: Usuario) {
         viewModelScope.launch {

@@ -1,8 +1,10 @@
 package com.example.miembarazosemanaasemana
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -25,23 +27,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // ViewBinding correctamente inflado
+        // ViewBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ViewModel inicialización
+        // ViewModel
         val dao = UsuarioDatabase.getDatabase(this).usuarioDAO()
         val repo = UsuarioRepositorio(dao)
         val factory = UsuarioViewModelFactory(repo)
         appViewModel = ViewModelProvider(this, factory)[AppViewModel::class.java]
 
-        // Toolbar + Navigation
+        // Toolbar y NavController
         setSupportActionBar(binding.toolbar)
-        
-        // Obtener el NavHostFragment
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
-        
+
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
@@ -53,9 +53,47 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_home -> {
+                // Navegar a la pantalla de inicio (login)
+                navController.navigate(R.id.loginFragment)
+                showToast("Pantalla de inicio")
+                true
+            }
+            R.id.action_back -> {
+                if (navController.previousBackStackEntry != null) {
+                    navController.navigateUp()
+                } else {
+                    showToast("No hay pantalla anterior")
+                }
+                true
+            }
+            R.id.action_logout -> {
+                logout()
+                true
+            }
+            R.id.action_exit -> {
+                finishAffinity()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun logout() {
+        // Limpiar SharedPreferences
+        getSharedPreferences("usuario", Context.MODE_PRIVATE).edit().clear().apply()
+
+        // Limpiar datos del ViewModel
+        appViewModel.logout()
+
+        // Volver al login
+        navController.navigate(R.id.loginFragment)
+
+        showToast("Sesión cerrada")
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

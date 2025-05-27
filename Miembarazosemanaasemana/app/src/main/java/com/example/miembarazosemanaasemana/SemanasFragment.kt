@@ -2,9 +2,13 @@ package com.example.miembarazosemanaasemana
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.miembarazosemanaasemana.adapter.SemanaAdapter
 import com.example.miembarazosemanaasemana.databinding.FragmentSemanasBinding
@@ -35,4 +39,32 @@ class SemanasFragment : Fragment() {
             // tengo que compeltar las 40 semnas.
         )
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+
+        // Ejemplo: en Login solo mostrar logout y home
+        menu.findItem(R.id.action_back)?.isVisible = false
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                // Cerrar sesión: limpiar prefs y volver a login
+                findNavController().navigate(R.id.loginFragment)
+                true
+            }
+            R.id.action_home -> {
+                findNavController().navigate(R.id.loginFragment)
+                true
+            }
+            R.id.action_back -> {
+                findNavController().popBackStack()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
 }
+

@@ -34,6 +34,10 @@
         <action
             android:id="@+id/action_FirstFragment_to_semanasFragment"
             app:destination="@id/semanasFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_modificarFragment"
+            app:destination="@id/modificarFragment" />
+
     </fragment>
 
     <!-- REGISTRO -->
@@ -43,9 +47,16 @@
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_SecondFragment_to_LoginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/modificarFragment"
+        android:name="com.example.miembarazosemanaasemana.ModificarFragment"
+        android:label="Modificar datos"
+        tools:layout="@layout/fragment_modificar" />
+
 
     <!-- SEMANAS -->
     <fragment

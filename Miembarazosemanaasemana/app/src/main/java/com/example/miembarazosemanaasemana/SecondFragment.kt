@@ -3,6 +3,9 @@ package com.example.miembarazosemanaasemana
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -64,21 +67,7 @@ class SecondFragment : Fragment() {
             }
 
             Toast.makeText(requireContext(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        }
-
-        binding.btnBuscar.setOnClickListener {
-            val userId = binding.editUsuario.text.toString().trim()
-            if (userId.isNotEmpty()) {
-                viewModel.buscarUsuario(userId)
-                viewModel.usuario.observe(viewLifecycleOwner) { usuario ->
-                    if (usuario != null) {
-                        binding.txtResultado.text = "Hola, ${usuario.nombre}.\nÚltima regla: ${usuario.fechaRegla}"
-                    } else {
-                        binding.txtResultado.text = "Usuario no encontrado"
-                    }
-                }
-            }
+            findNavController().navigate(R.id.action_SecondFragment_to_LoginFragment)
         }
     }
 
@@ -86,4 +75,31 @@ class SecondFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+
+        // Ejemplo: en Login solo mostrar logout y home
+        menu.findItem(R.id.action_back)?.isVisible = false
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                // Cerrar sesión: limpiar prefs y volver a login
+                findNavController().navigate(R.id.loginFragment)
+                true
+            }
+            R.id.action_home -> {
+                findNavController().navigate(R.id.loginFragment)
+                true
+            }
+            R.id.action_back -> {
+                findNavController().popBackStack()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
 }
+

@@ -3,7 +3,24 @@
     <style name="Base.Theme.MiEmbarazoSemanaASemana" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#9C27B0</item>
+        <item name="colorPrimaryVariant">#6A1B9A</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
     </style>
 
     <style name="Theme.MiEmbarazoSemanaASemana" parent="Base.Theme.MiEmbarazoSemanaASemana" />
+    
+    <!-- Estilo para el DatePickerDialog -->
+    <style name="DatePickerTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorPrimary">#9C27B0</item>
+        <item name="colorAccent">#9C27B0</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:colorControlActivated">#9C27B0</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerButton</item>
+    </style>
+    
+    <style name="DatePickerButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#9C27B0</item>
+    </style>
 </resources>

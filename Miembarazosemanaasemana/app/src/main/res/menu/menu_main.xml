@@ -1,10 +1,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.miembarazosemanaasemana.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Home: va al login -->
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:id="@+id/action_home"
+        android:title="Inicio"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="ifRoom" />
+
+    <!-- Cerrar sesión: icono de usuario con cerrar sesión -->
+    <item
+        android:id="@+id/action_logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/ic_logout"
+        app:showAsAction="ifRoom" />
+
+    <!-- Atrás: usado en pantallas secundarias -->
+    <item
+        android:id="@+id/action_back"
+        android:title="Atrás"
+        android:icon="@drawable/ic_back"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="300"
+        android:title="Salir"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
         app:showAsAction="never" />
+
 </menu>
